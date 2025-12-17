@@ -4,11 +4,13 @@ import com.shreyas.job_application_tracker.dto.ApplicationRequest;
 import com.shreyas.job_application_tracker.dto.ApplicationResponse;
 import com.shreyas.job_application_tracker.model.Application;
 import com.shreyas.job_application_tracker.repository.ApplicationRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
 
@@ -26,7 +28,7 @@ public class ApplicationService {
 
     // READ all
     public List<ApplicationResponse> getAllApplications() {
-        return applicationRepository.getAllApplications()
+        return applicationRepository.findAll()
                                     .stream()
                                     .map(this::convertToDTO)
                                     .collect(Collectors.toList());
@@ -34,7 +36,7 @@ public class ApplicationService {
 
     // READ one
     public Optional<ApplicationResponse> getApplicationById(Long id) {
-        return applicationRepository.getApplicationById(id).map(this::convertToDTO);
+        return applicationRepository.findById(id).map(this::convertToDTO);
     }
 
     // UPDATE
@@ -62,6 +64,7 @@ public class ApplicationService {
         application.setCompany(request.company());
         application.setPosition(request.position());
         application.setUrl(request.url());
+        application.setAppliedDate(request.appliedDate());
         application.setStatus(request.status());
         return application;
     }
