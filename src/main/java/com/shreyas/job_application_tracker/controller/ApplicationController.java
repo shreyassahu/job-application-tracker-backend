@@ -29,8 +29,23 @@ public class ApplicationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApplicationResponse> getApplicationById(@RequestBody Long id) {
+    public ResponseEntity<ApplicationResponse> getApplicationById(@PathVariable Long id) {
         Optional<ApplicationResponse> application = applicationService.getApplicationById(id);
         return application.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApplicationResponse> updateProduct(@PathVariable Long id, @RequestBody ApplicationRequest request) {
+        try {
+            ApplicationResponse updatedProduct = applicationService.updateApplication(id, request);
+            return ResponseEntity.ok(updatedProduct);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteApplication(@PathVariable Long id) {
+        applicationService.deleteApplication(id);
+        return ResponseEntity.noContent().build();
     }
 }
