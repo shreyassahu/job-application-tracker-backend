@@ -27,6 +27,9 @@ public class Application {
     @Column(nullable = false)
     private String position;
 
+    @Column(nullable = false)
+    private String url;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ApplicationStatus status;
